@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="800.0" style="-fx-background-color: #ddd6ea;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.MainViewController">
    <children>
-      <Label text="Hello World!" />
+      <AnchorPane layoutX="216.0" layoutY="411.0" prefHeight="88.0" prefWidth="584.0" style="-fx-background-color: #efeef9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ProgressBar fx:id="progressBar" layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="565.0" progress="0.0" style="-fx-accent: #9984c1;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+            <Button fx:id="btnPrevious" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #9984c1; -fx-border-radius: 10;" text="Previous" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="15.0" />
+               </font>
+            </Button>
+            <Slider fx:id="volumeSlider" layoutX="439.0" layoutY="47.0" prefHeight="14.0" prefWidth="122.0" value="50.0" AnchorPane.rightAnchor="5.0" />
+            <Button fx:id="btnNext" layoutX="116.0" layoutY="37.0" mnemonicParsing="false" onAction="#nextMedia" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #9984c1; -fx-border-radius: 10;" text="Next" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="96.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnStop" layoutX="229.0" layoutY="38.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #9984c1; -fx-border-radius: 10;" text="Stop" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="187.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnStart" layoutX="325.0" layoutY="37.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #9984c1; -fx-border-radius: 10;" text="Start" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="278.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnReset" layoutX="211.0" layoutY="38.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="32.0" prefWidth="86.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #9984c1; -fx-border-radius: 10;" text="Reset" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="369.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="496.0" prefWidth="216.0" style="-fx-background-color: #9984c1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="42.0" layoutY="-12.0" prefHeight="100.0" prefWidth="19.0" rotate="-25.0" style="-fx-background-color: #553399; -fx-background-radius: 10;" AnchorPane.leftAnchor="-15.0" AnchorPane.topAnchor="-50.0" />
+            <AnchorPane prefHeight="100.0" prefWidth="19.0" rotate="-25.0" style="-fx-background-color: #e55200; -fx-background-radius: 10;" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="-45.0" />
+            <AnchorPane prefHeight="100.0" prefWidth="19.0" rotate="-25.0" style="-fx-background-color: #6655cc; -fx-background-radius: 10;" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="-60.0" />
+            <AnchorPane layoutX="63.0" layoutY="-61.0" prefHeight="100.0" prefWidth="19.0" rotate="-25.0" style="-fx-background-color: #e5e5e5; -fx-background-radius: 10;" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="-80.0" />
+            <Label alignment="CENTER" layoutX="2.0" layoutY="63.0" prefHeight="32.0" prefWidth="206.0" text="Spotify Successor" textFill="#ececec" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0">
+               <font>
+                  <Font name="Yu Gothic Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="124.0" layoutY="412.0" prefHeight="88.0" prefWidth="216.0" style="-fx-background-color: #ddd6ea;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <Label fx:id="lblSongName" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="28.0" prefHeight="32.0" prefWidth="206.0" style="-fx-padding: 3;" text="Currently Playing Song Placeholder" textFill="#240086" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Yu Gothic Regular" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+</AnchorPane>
