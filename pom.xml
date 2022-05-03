@@ -41,7 +41,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>pl.mariuszk.App</mainClass>
+                            <mainClass>pl.mariuszk.SpotifySuccessor</mainClass>
                         </configuration>
                     </execution>
                     <execution>
@@ -52,7 +52,7 @@
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=0.0.0.0:5005</option>
                             </options>
-                            <mainClass>pl.mariuszk.App</mainClass>
+                            <mainClass>pl.mariuszk.SpotifySuccessor</mainClass>
                         </configuration>
                     </execution>
                 </executions>
