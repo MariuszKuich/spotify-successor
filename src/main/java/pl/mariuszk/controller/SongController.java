@@ -17,8 +17,10 @@ public class SongController {
     private MediaPlayer mediaPlayer;
     private final List<File> songs;
     private int currentSongIndex = 0;
+    private double volumePercent;
 
-    public SongController() {
+    public SongController(double initialVolumePercent) {
+        this.volumePercent = initialVolumePercent;
         songs = loadSongs();
         loadMedia();
     }
@@ -35,6 +37,7 @@ public class SongController {
     private void loadMedia() {
         Media media = new Media(songs.get(currentSongIndex).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        updateVolume();
     }
 
     public void playSong() {
@@ -52,5 +55,53 @@ public class SongController {
     public String getCurrentSongName() {
         String fullFilename = songs.get(currentSongIndex).getName();
         return FilenameUtils.removeExtension(fullFilename);
+    }
+
+    public void nextSong() {
+        mediaPlayer.dispose();
+        incrementCurrentSongIndex();
+        loadMedia();
+        playSong();
+    }
+
+    public void previousSong() {
+        mediaPlayer.dispose();
+        decrementCurrentSongIndex();
+        loadMedia();
+        playSong();
+    }
+
+    private void incrementCurrentSongIndex() {
+        currentSongIndex++;
+        if (currentSongIndex == songs.size()) {
+            currentSongIndex = 0;
+        }
+    }
+
+    private void decrementCurrentSongIndex() {
+        currentSongIndex--;
+        if (currentSongIndex < 0) {
+            currentSongIndex = songs.size() - 1;
+        }
+    }
+
+    public void changeVolume(double volumePercent) {
+        this.volumePercent = volumePercent;
+        updateVolume();
+    }
+
+    private void updateVolume() {
+        if (mediaPlayer == null) {
+            return;
+        }
+        mediaPlayer.setVolume(volumePercent * 0.01);
+    }
+
+    public double getSongsCurrentSecond() {
+        return mediaPlayer.getCurrentTime().toSeconds();
+    }
+
+    public double getSongsDuration() {
+        return mediaPlayer.getTotalDuration().toSeconds();
     }
 }
