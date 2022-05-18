@@ -1,0 +1,56 @@
+.btn-player {
+    -fx-background-color: #f2f2f2;
+    -fx-background-radius: 10;
+    -fx-border-color: #9984c1;
+    -fx-border-radius: 10;
+}
+.ikonli-font-icon {
+    -fx-icon-color: #373737;
+}
+.btn-player:hover {
+    -fx-background-color: #e7e7e7;
+    -fx-background-radius: 10;
+    -fx-border-color: #8371a5;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+}
+#volume-slider:hover {
+    -fx-cursor: hand;
+}
+#progr-bar {
+    -fx-accent: #9984c1;
+}
+#progr-bar:hover {
+    -fx-accent: #7e6d9e;
+}
+#background-pane {
+    -fx-background-color: #ddd6ea;
+}
+#controls-pane {
+    -fx-background-color: #efeef9;
+}
+#menu-pane {
+    -fx-background-color: #9984c1;
+}
+#logo-elem-1 {
+    -fx-background-color: #553399;
+    -fx-background-radius: 10;
+}
+#logo-elem-2 {
+    -fx-background-color: #e55200;
+    -fx-background-radius: 10;
+}
+#logo-elem-3 {
+    -fx-background-color: #6655cc;
+    -fx-background-radius: 10;
+}
+#logo-elem-4 {
+    -fx-background-color: #e5e5e5;
+    -fx-background-radius: 10;
+}
+#song-name-pane {
+    -fx-background-color: #ddd6ea;
+}
+#song-name-label {
+    -fx-padding: 3;
+}
