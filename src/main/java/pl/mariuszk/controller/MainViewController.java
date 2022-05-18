@@ -13,7 +13,7 @@ import java.util.TimerTask;
 public class MainViewController {
 
     private static final Long PROGRESS_COMPLETE = 1L;
-    private static final Long TIMER_DELAY_MS = 0L;
+    private static final Long TIMER_DELAY_MS = 5L;
     private static final Long TIMER_PERIOD_MS = 1000L;
 
     @FXML
@@ -52,28 +52,28 @@ public class MainViewController {
 
     @FXML
     void nextMedia(ActionEvent event) {
-        scheduleProgressBarUpdating();
         songController.nextSong();
+        scheduleProgressBarUpdating();
         updateCurrentSongTitle();
     }
 
     @FXML
     void previousMedia(ActionEvent event) {
-        scheduleProgressBarUpdating();
         songController.previousSong();
+        scheduleProgressBarUpdating();
         updateCurrentSongTitle();
     }
 
     @FXML
     void playMedia(ActionEvent event) {
-        scheduleProgressBarUpdating();
         songController.playSong();
+        scheduleProgressBarUpdating();
     }
 
     @FXML
     void pauseMedia(ActionEvent event) {
-        cancelProgressBarUpdating();
         songController.pauseSong();
+        cancelProgressBarUpdating();
     }
 
     @FXML
