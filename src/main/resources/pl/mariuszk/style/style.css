@@ -1,18 +1,18 @@
-.btn-player {
+.btn-generic {
     -fx-background-color: #f2f2f2;
     -fx-background-radius: 10;
     -fx-border-color: #9984c1;
     -fx-border-radius: 10;
 }
-.ikonli-font-icon {
-    -fx-icon-color: #373737;
-}
-.btn-player:hover {
+.btn-generic:hover {
     -fx-background-color: #e7e7e7;
     -fx-background-radius: 10;
     -fx-border-color: #8371a5;
     -fx-border-radius: 10;
     -fx-cursor: hand;
+}
+.ikonli-font-icon {
+    -fx-icon-color: #373737;
 }
 #volume-slider:hover {
     -fx-cursor: hand;
@@ -53,4 +53,11 @@
 }
 #song-name-label {
     -fx-padding: 3;
+}
+#lbl-file-path {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-color: #9984c1;
+    -fx-border-radius: 10;
+    -fx-padding: 0 5 0 5;
 }

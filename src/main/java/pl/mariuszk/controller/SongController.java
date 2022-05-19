@@ -6,32 +6,28 @@ import javafx.util.Duration;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import static pl.mariuszk.enums.FileType.MP3;
+import static pl.mariuszk.util.FileLoader.loadFiles;
 
 public class SongController {
 
-    private static final String SONGS_PATH = "/pl/mariuszk/songs";
-
+    private static final String DEFAULT_SONGS_FILE_PATH = "/pl/mariuszk/songs";
     private MediaPlayer mediaPlayer;
     private final List<File> songs;
     private int currentSongIndex = 0;
     private double volumePercent;
 
-    public SongController(double initialVolumePercent) {
-        this.volumePercent = initialVolumePercent;
-        songs = loadSongs();
-        loadMedia();
+    public SongController(double initialVolumePercent) throws FileNotFoundException {
+        this(initialVolumePercent, DEFAULT_SONGS_FILE_PATH);
     }
 
-    private List<File> loadSongs() {
-        File songsDictionary = new File(getClass().getResource(SONGS_PATH).getPath());
-        File[] songsFiles = songsDictionary.listFiles();
-        if (songsFiles == null) {
-            return Collections.emptyList();
-        }
-        return Arrays.asList(songsFiles);
+    public SongController(double initialVolumePercent, String songsFilePath) throws FileNotFoundException {
+        this.volumePercent = initialVolumePercent;
+        songs = loadFiles(songsFilePath, MP3.getFileExtension());
+        loadMedia();
     }
 
     private void loadMedia() {
