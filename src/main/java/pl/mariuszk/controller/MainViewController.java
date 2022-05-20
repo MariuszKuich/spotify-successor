@@ -7,21 +7,28 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import pl.mariuszk.model.SongsDirectory;
 
-import javax.naming.OperationNotSupportedException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static pl.mariuszk.util.JsonFileReader.readSavedFilePath;
+import static pl.mariuszk.enums.FileType.MP3;
+import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
+import static pl.mariuszk.util.json.JsonFileReader.readSavedFilePath;
+import static pl.mariuszk.util.json.JsonFileWriter.saveUsersFilePath;
 
 public class MainViewController {
 
     private static final Long PROGRESS_COMPLETE = 1L;
     private static final Long TIMER_DELAY_MS = 5L;
     private static final Long TIMER_PERIOD_MS = 1000L;
+    private static final String DIRECTORY_CHOOSER_LABEL = "Choose a directory with your music";
+    private static final String NO_MP3_FILES_FOUND = "Selected directory doesn't contain any MP3 file";
 
     @FXML
     private ProgressBar progressBar;
@@ -106,13 +113,53 @@ public class MainViewController {
     }
 
     @FXML
-    void changeFilePath(ActionEvent event) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+    void changeFilePath(ActionEvent event) {
+        try {
+            File usersDirectory = prepareAndRunDirectoryChooser();
+            if (dictionaryContainsAnyFileWithExtension(usersDirectory, MP3.getFileExtension())) {
+                String songsAbsolutePath = usersDirectory.getAbsolutePath();
+                saveUsersFilePath(new SongsDirectory(songsAbsolutePath));
+                updateFilePathLabel(songsAbsolutePath);
+                resetPlayback(songsAbsolutePath);
+            }
+            else {
+                displayWarningPopup(NO_MP3_FILES_FOUND);
+            }
+        } catch (Exception e) {
+            displayErrorPopup(e.getMessage());
+        }
+    }
+
+    private void displayWarningPopup(String warningMessage) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage);
+        alert.show();
+    }
+
+    private File prepareAndRunDirectoryChooser() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle(DIRECTORY_CHOOSER_LABEL);
+        return directoryChooser.showDialog(new Stage());
     }
 
     @FXML
-    void reloadFiles(ActionEvent event) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+    void reloadFiles(ActionEvent event) {
+        try {
+            resetPlayback(lblFilePath.getText());
+        } catch (Exception e) {
+            displayErrorPopup(e.getMessage());
+        }
+    }
+
+    private void resetPlayback(String songsFilePath) throws FileNotFoundException {
+        songController.pauseSong();
+        cancelProgressBarUpdating();
+        resetProgressBar();
+        songController = new SongController(volumeSlider.getValue(), songsFilePath);
+        updateCurrentSongTitle();
+    }
+
+    private void resetProgressBar() {
+        progressBar.setProgress(0.0);
     }
 
     private void scheduleProgressBarUpdating() {

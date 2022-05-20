@@ -2,6 +2,7 @@ package pl.mariuszk.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,5 +36,10 @@ public final class FileLoader {
         return Optional.ofNullable(FileLoader.class.getResource(filePath))
                 .map(URL::getPath)
                 .orElseThrow(() -> new FileNotFoundException("Could not find or access directory " + filePath));
+    }
+
+    public static boolean dictionaryContainsAnyFileWithExtension(File directory, String extension) {
+        File[] files = directory.listFiles((dir, name) -> name.endsWith("." + extension));
+        return ArrayUtils.isNotEmpty(files);
     }
 }
