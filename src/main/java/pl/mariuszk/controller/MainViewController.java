@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -38,6 +39,10 @@ public class MainViewController {
     private Label lblSongName;
     @FXML
     private Label lblFilePath;
+    @FXML
+    private Button btnReloadFiles;
+    @FXML
+    private Button btnChangeFilePath;
 
     private SongController songController;
     private Timer timer;
@@ -60,6 +65,7 @@ public class MainViewController {
             updateFilePathLabel(savedFilePath);
             return new SongController(volumeSlider.getValue(), savedFilePath);
         }
+        btnReloadFiles.setDisable(true);
         return new SongController(volumeSlider.getValue());
     }
 
@@ -114,31 +120,43 @@ public class MainViewController {
 
     @FXML
     void changeFilePath(ActionEvent event) {
+        btnChangeFilePath.setDisable(true);
         try {
             File usersDirectory = prepareAndRunDirectoryChooser();
+
+            if (userClosedDialogWindow(usersDirectory)) {
+                return;
+            }
+
             if (dictionaryContainsAnyFileWithExtension(usersDirectory, MP3.getFileExtension())) {
                 String songsAbsolutePath = usersDirectory.getAbsolutePath();
                 saveUsersFilePath(new SongsDirectory(songsAbsolutePath));
                 updateFilePathLabel(songsAbsolutePath);
                 resetPlayback(songsAbsolutePath);
-            }
-            else {
+                btnReloadFiles.setDisable(false);
+            } else {
                 displayWarningPopup(NO_MP3_FILES_FOUND);
             }
         } catch (Exception e) {
             displayErrorPopup(e.getMessage());
+        } finally {
+            btnChangeFilePath.setDisable(false);
         }
     }
 
-    private void displayWarningPopup(String warningMessage) {
-        Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage);
-        alert.show();
+    private boolean userClosedDialogWindow(File usersDirectory) {
+        return usersDirectory == null;
     }
 
     private File prepareAndRunDirectoryChooser() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(DIRECTORY_CHOOSER_LABEL);
         return directoryChooser.showDialog(new Stage());
+    }
+
+    private void displayWarningPopup(String warningMessage) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage);
+        alert.show();
     }
 
     @FXML
