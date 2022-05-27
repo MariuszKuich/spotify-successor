@@ -3,38 +3,41 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="800.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.MainViewController">
+<AnchorPane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="1014.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.MainViewController">
    <children>
       <AnchorPane id="controls-pane" layoutX="216.0" layoutY="411.0" prefHeight="88.0" prefWidth="584.0" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="0.0">
          <children>
             <ProgressBar id="progr-bar" fx:id="progressBar" layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="565.0" progress="0.0" stylesheets="@../style/style.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
-            <Button fx:id="btnPrevious" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="32.0" prefWidth="86.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0">
+            <Button fx:id="btnPrevious" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" onAction="#previousMedia" prefHeight="32.0" prefWidth="116.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="5.0">
                <graphic>
                   <FontIcon iconLiteral="dashicons-controls-skipback" iconSize="20" />
                </graphic>
             </Button>
-            <Slider id="volume-slider" fx:id="volumeSlider" layoutX="439.0" layoutY="47.0" prefHeight="14.0" prefWidth="122.0" stylesheets="@../style/style.css" value="50.0" AnchorPane.rightAnchor="5.0" />
-            <Button fx:id="btnNext" layoutX="116.0" layoutY="37.0" mnemonicParsing="false" onAction="#nextMedia" prefHeight="32.0" prefWidth="86.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="96.0">
+            <Slider id="volume-slider" fx:id="volumeSlider" layoutX="439.0" layoutY="47.0" prefHeight="14.0" prefWidth="183.0" stylesheets="@../style/style.css" value="50.0" AnchorPane.rightAnchor="5.0" />
+            <Button fx:id="btnNext" layoutX="116.0" layoutY="37.0" mnemonicParsing="false" onAction="#nextMedia" prefHeight="32.0" prefWidth="116.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="126.0">
                <graphic>
                   <FontIcon iconLiteral="dashicons-controls-skipforward" iconSize="20" />
                </graphic>
             </Button>
-            <Button fx:id="btnStop" layoutX="229.0" layoutY="38.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="32.0" prefWidth="86.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="187.0">
+            <Button fx:id="btnStop" layoutX="229.0" layoutY="38.0" mnemonicParsing="false" onAction="#pauseMedia" prefHeight="32.0" prefWidth="116.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="247.0">
                <graphic>
                   <FontIcon iconLiteral="dashicons-controls-pause" iconSize="20" />
                </graphic>
             </Button>
-            <Button fx:id="btnStart" layoutX="325.0" layoutY="37.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="32.0" prefWidth="86.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="278.0">
+            <Button fx:id="btnStart" layoutX="325.0" layoutY="37.0" mnemonicParsing="false" onAction="#playMedia" prefHeight="32.0" prefWidth="116.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="368.0">
                <graphic>
                   <FontIcon iconLiteral="dashicons-controls-play" iconSize="20" />
                </graphic>
             </Button>
-            <Button fx:id="btnReset" layoutX="211.0" layoutY="38.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="32.0" prefWidth="86.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="369.0">
+            <Button fx:id="btnReset" layoutX="211.0" layoutY="38.0" mnemonicParsing="false" onAction="#resetMedia" prefHeight="32.0" prefWidth="116.0" styleClass="btn-generic" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="489.0">
                <graphic>
                   <FontIcon iconLiteral="dashicons-redo" iconSize="20" />
                </graphic>
@@ -56,7 +59,7 @@
       </AnchorPane>
       <AnchorPane id="song-name-pane" layoutX="124.0" layoutY="412.0" prefHeight="88.0" prefWidth="216.0" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
          <children>
-            <Label id="song-name-label" fx:id="lblSongName" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="28.0" prefHeight="32.0" prefWidth="206.0" stylesheets="@../style/style.css" text="Currently Playing Song Placeholder" textFill="#240086" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="lblSongName" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="28.0" prefHeight="32.0" prefWidth="206.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Currently Playing Song Placeholder" textFill="#240086" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="Yu Gothic Regular" size="19.0" />
                </font>
@@ -78,5 +81,16 @@
             <FontIcon iconLiteral="dashicons-update" iconSize="20" />
          </graphic>
       </Button>
+      <ScrollPane fx:id="songCardsScrollPane" hbarPolicy="NEVER" layoutX="233.0" layoutY="42.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="762.0" styleClass="songs-cards-background" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="53.0">
+         <content>
+            <GridPane fx:id="songCardsGridPane" alignment="CENTER" minHeight="46.0" minWidth="760.0" styleClass="songs-cards-background" stylesheets="@../style/style.css">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

@@ -9,9 +9,9 @@
 
 <AnchorPane id="song-card-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="215.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.SongCardController">
    <children>
-      <Label fx:id="lblSongTitle" alignment="CENTER" layoutX="11.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="118.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Song Filename" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="88.0" AnchorPane.topAnchor="5.0">
+      <Label fx:id="lblSongTitle" alignment="CENTER" layoutX="11.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="118.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Song Filename" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="88.0" AnchorPane.topAnchor="5.0">
          <font>
-            <Font name="Wingdings" size="10.0" />
+            <Font name="Wingdings" size="9.0" />
          </font></Label>
       <Label alignment="CENTER" layoutY="29.0" prefHeight="22.0" prefWidth="215.0" text="Title" wrapText="true">
          <font>

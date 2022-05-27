@@ -113,3 +113,7 @@
     -fx-border-color: #9984c1;
     -fx-border-radius: 7;
 }
+.songs-cards-background {
+    -fx-background-color: #ddd6ea;
+    -fx-background: #ddd6ea;
+}

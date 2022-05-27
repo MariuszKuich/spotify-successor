@@ -12,10 +12,10 @@ public class SpotifySuccessor extends Application {
 
     private static final String MAIN_VIEW_PATH = "/pl/mariuszk/view/mainView.fxml";
     private static final String TITLE = "Spotify Successor";
-    private static final int INITIAL_WIDTH = 800;
-    private static final int INITIAL_HEIGHT = 450;
-    private static final int MIN_WIDTH = 820;
-    private static final int MIN_HEIGHT = 490;
+    private static final int INITIAL_WIDTH = 1014;
+    private static final int INITIAL_HEIGHT = 528;
+    private static final int MIN_WIDTH = 1034;
+    private static final int MIN_HEIGHT = 568;
 
     @Override
     public void start(Stage stage) throws IOException {
