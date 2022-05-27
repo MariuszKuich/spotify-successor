@@ -51,7 +51,7 @@
 #song-name-pane {
     -fx-background-color: #ddd6ea;
 }
-#song-name-label {
+.generic-label {
     -fx-padding: 3;
 }
 #lbl-file-path {
@@ -60,4 +60,29 @@
     -fx-border-color: #9984c1;
     -fx-border-radius: 10;
     -fx-padding: 0 5 0 5;
+}
+#song-card-pane {
+    -fx-background-color: #efeef9;
+    -fx-background-radius: 10;
+    -fx-border-color: #9984c1;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+#btn-card-edit {
+    -fx-background-color: #beb5f7;
+    -fx-background-radius: 4;
+    -fx-border-color: #6655cc;
+    -fx-border-radius: 4;
+}
+#btn-card-save {
+    -fx-background-color: #fcb790;
+    -fx-background-radius: 4;
+    -fx-border-color: #e55200;
+    -fx-border-radius: 4;
+}
+.generic-input {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 7;
+    -fx-border-color: #9984c1;
+    -fx-border-radius: 7;
 }

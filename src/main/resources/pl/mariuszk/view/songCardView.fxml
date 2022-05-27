@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane id="song-card-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="215.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.SongCardController">
+   <children>
+      <Label fx:id="lblSongTitle" alignment="CENTER" layoutX="12.0" layoutY="7.0" prefHeight="22.0" prefWidth="152.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Song Filename" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="5.0">
+         <font>
+            <Font name="Wingdings" size="10.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutY="29.0" prefHeight="22.0" prefWidth="215.0" text="Title" wrapText="true">
+         <font>
+            <Font name="Wingdings" size="10.0" />
+         </font>
+      </Label>
+      <Button id="btn-card-save" fx:id="btnSaveSongCard" layoutX="160.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <FontIcon iconLiteral="dashicons-saved" iconSize="15" selectionEnd="1" selectionStart="1" />
+         </graphic>
+      </Button>
+      <Button id="btn-card-edit" fx:id="btnEditSongCard" layoutX="190.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <FontIcon iconLiteral="dashicons-edit" iconSize="15" />
+         </graphic>
+      </Button>
+      <TextField fx:id="inputTitle" editable="false" layoutX="10.0" layoutY="51.0" prefHeight="23.0" prefWidth="196.0" promptText="What is the title of this song?" styleClass="generic-input" stylesheets="@../style/style.css">
+         <font>
+            <Font name="Wingdings" size="11.0" />
+         </font>
+      </TextField>
+      <Label alignment="CENTER" layoutY="76.0" prefHeight="22.0" prefWidth="215.0" text="Artist" wrapText="true">
+         <font>
+            <Font name="Wingdings" size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="inputArtist" editable="false" layoutX="10.0" layoutY="98.0" prefHeight="23.0" prefWidth="196.0" promptText="Who made this track?" styleClass="generic-input" stylesheets="@../style/style.css">
+         <font>
+            <Font name="Wingdings" size="11.0" />
+         </font>
+      </TextField>
+      <Label alignment="CENTER" layoutY="123.0" prefHeight="22.0" prefWidth="215.0" text="Album" wrapText="true">
+         <font>
+            <Font name="Wingdings" size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="inputAlbum" editable="false" layoutX="10.0" layoutY="145.0" prefHeight="23.0" prefWidth="196.0" promptText="What album is this song on?" styleClass="generic-input" stylesheets="@../style/style.css">
+         <font>
+            <Font name="Wingdings" size="11.0" />
+         </font>
+      </TextField>
+      <Label alignment="CENTER" layoutY="170.0" prefHeight="22.0" prefWidth="215.0" text="Genre" wrapText="true">
+         <font>
+            <Font name="Wingdings" size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="inputGenre" editable="false" layoutX="10.0" layoutY="192.0" prefHeight="23.0" prefWidth="196.0" promptText="What genre is it?" styleClass="generic-input" stylesheets="@../style/style.css">
+         <font>
+            <Font name="Wingdings" size="11.0" />
+         </font>
+      </TextField>
+      <FontIcon fx:id="starEmpty1" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="10.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty2" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="34.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty3" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="58.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty4" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="82.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty5" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="106.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starFilled1" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="10.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starFilled2" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="34.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starFilled3" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="58.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starFilled4" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="82.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starFilled5" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="106.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+   </children>
+</AnchorPane>
