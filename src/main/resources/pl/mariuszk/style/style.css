@@ -80,6 +80,33 @@
     -fx-border-color: #e55200;
     -fx-border-radius: 4;
 }
+#btn-card-edit:hover {
+    -fx-background-color: #d5d0f5;
+    -fx-background-radius: 4;
+    -fx-border-color: #6655cc;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
+#btn-card-save:hover {
+    -fx-background-color: #f7ceb7;
+    -fx-background-radius: 4;
+    -fx-border-color: #e55200;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
+#btn-card-play {
+    -fx-background-color: #b3fcc6;
+    -fx-background-radius: 4;
+    -fx-border-color: #1f8f3b;
+    -fx-border-radius: 4;
+}
+#btn-card-play:hover {
+    -fx-background-color: #d2fadc;
+    -fx-background-radius: 4;
+    -fx-border-color: #1f8f3b;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
 .generic-input {
     -fx-background-color: #ffffff;
     -fx-background-radius: 7;

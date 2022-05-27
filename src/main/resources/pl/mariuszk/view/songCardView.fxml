@@ -9,7 +9,7 @@
 
 <AnchorPane id="song-card-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="215.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.mariuszk.controller.SongCardController">
    <children>
-      <Label fx:id="lblSongTitle" alignment="CENTER" layoutX="12.0" layoutY="7.0" prefHeight="22.0" prefWidth="152.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Song Filename" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="5.0">
+      <Label fx:id="lblSongTitle" alignment="CENTER" layoutX="11.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="118.0" styleClass="generic-label" stylesheets="@../style/style.css" text="Song Filename" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="88.0" AnchorPane.topAnchor="5.0">
          <font>
             <Font name="Wingdings" size="10.0" />
          </font></Label>
@@ -73,5 +73,10 @@
       <FontIcon fx:id="starFilled3" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="58.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled4" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="82.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled5" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="106.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
+      <Button id="btn-card-play" fx:id="btnPlaySongCard" layoutX="131.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <FontIcon iconLiteral="dashicons-album" iconSize="15" selectionEnd="1" selectionStart="1" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
