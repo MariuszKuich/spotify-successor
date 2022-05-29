@@ -3,23 +3,35 @@ package pl.mariuszk.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import pl.mariuszk.model.Song;
+import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static pl.mariuszk.enums.FileType.MP3;
 import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
+import static pl.mariuszk.util.FileLoader.loadSongCardPaneAndController;
+import static pl.mariuszk.util.json.JsonFileReader.loadSavedSongsData;
 import static pl.mariuszk.util.json.JsonFileReader.readSavedFilePath;
 import static pl.mariuszk.util.json.JsonFileWriter.saveUsersFilePath;
 
@@ -30,6 +42,8 @@ public class MainViewController {
     private static final Long TIMER_PERIOD_MS = 1000L;
     private static final String DIRECTORY_CHOOSER_LABEL = "Choose a directory with your music";
     private static final String NO_MP3_FILES_FOUND = "Selected directory doesn't contain any MP3 file";
+    private static final int GRID_PANE_COLUMNS_COUNT = 3;
+    private static final Insets GRID_CELL_MARGIN = new Insets(10);
 
     @FXML
     private ProgressBar progressBar;
@@ -43,6 +57,10 @@ public class MainViewController {
     private Button btnReloadFiles;
     @FXML
     private Button btnChangeFilePath;
+    @FXML
+    private GridPane songCardsGridPane;
+    @FXML
+    private ScrollPane songCardsScrollPane;
 
     private SongController songController;
     private Timer timer;
@@ -50,8 +68,10 @@ public class MainViewController {
     public void initialize() {
         try {
             songController = initSongsController();
+            loadSongsCardsToGridPane();
             updateCurrentSongTitle();
             addVolumeSliderListener();
+            setGridPaneWidthProperty();
         } catch (Exception e) {
             displayErrorPopup(e.getMessage());
             Platform.exit();
@@ -69,6 +89,30 @@ public class MainViewController {
         return new SongController(volumeSlider.getValue());
     }
 
+    private void loadSongsCardsToGridPane() throws IOException {
+        int colNum = 0;
+        int rowNum = 0;
+        List<Song> savedSongsData = loadSavedSongsData();
+        for (File song : songController.getSongs()) {
+            SongCardPaneController paneController = loadSongCardPaneAndController();
+            paneController.getSongCardController().setCardFields(song, savedSongsData);
+
+            if (colNum == GRID_PANE_COLUMNS_COUNT) {
+                colNum = 0;
+                rowNum++;
+            }
+
+            songCardsGridPane.add(paneController.getSongCardPane(), colNum++, rowNum);
+            adjustGridPropertiesForPane(paneController.getSongCardPane());
+        }
+    }
+
+    private void adjustGridPropertiesForPane(AnchorPane songCardPane) {
+        GridPane.setMargin(songCardPane, GRID_CELL_MARGIN);
+        GridPane.setHalignment(songCardPane, HPos.CENTER);
+        GridPane.setValignment(songCardPane, VPos.CENTER);
+    }
+
     private void updateFilePathLabel(String text) {
         lblFilePath.setText(text);
     }
@@ -79,6 +123,10 @@ public class MainViewController {
 
     private void addVolumeSliderListener() {
         volumeSlider.valueProperty().addListener((arg0, arg1, arg2) -> songController.changeVolume(volumeSlider.getValue()));
+    }
+
+    private void setGridPaneWidthProperty() {
+        songCardsGridPane.prefWidthProperty().bind(songCardsScrollPane.widthProperty());
     }
 
     private void displayErrorPopup(String errorMessage) {

@@ -3,6 +3,7 @@ package pl.mariuszk.controller;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -16,6 +17,7 @@ public class SongController {
 
     private static final String DEFAULT_SONGS_FILE_PATH = "/pl/mariuszk/songs";
     private MediaPlayer mediaPlayer;
+    @Getter
     private final List<File> songs;
     private int currentSongIndex = 0;
     private double volumePercent;

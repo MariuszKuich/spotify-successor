@@ -18,12 +18,12 @@
             <Font name="Wingdings" size="10.0" />
          </font>
       </Label>
-      <Button id="btn-card-save" fx:id="btnSaveSongCard" layoutX="160.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="5.0">
+      <Button id="btn-card-save" fx:id="btnSaveSongCard" layoutX="160.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSongCard" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="5.0">
          <graphic>
             <FontIcon iconLiteral="dashicons-saved" iconSize="15" selectionEnd="1" selectionStart="1" />
          </graphic>
       </Button>
-      <Button id="btn-card-edit" fx:id="btnEditSongCard" layoutX="190.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <Button id="btn-card-edit" fx:id="btnEditSongCard" layoutX="190.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSongCard" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <graphic>
             <FontIcon iconLiteral="dashicons-edit" iconSize="15" />
          </graphic>
@@ -73,7 +73,7 @@
       <FontIcon fx:id="starFilled3" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="58.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled4" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="82.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled5" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="106.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
-      <Button id="btn-card-play" fx:id="btnPlaySongCard" layoutX="131.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="5.0">
+      <Button id="btn-card-play" fx:id="btnPlaySongCard" layoutX="131.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playSong" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="5.0">
          <graphic>
             <FontIcon iconLiteral="dashicons-album" iconSize="15" selectionEnd="1" selectionStart="1" />
          </graphic>

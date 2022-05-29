@@ -1,3 +1,26 @@
 [
-
+  {
+    "fileChecksumCRC32": 3943666352,
+    "title": "Feel me",
+    "artist": "LiQWYD",
+    "album": "Audio Library",
+    "genre": "Dance & Electronic + Inspirational",
+    "rating": 3
+  },
+  {
+    "fileChecksumCRC32": 2490086928,
+    "title": "Summer Nights",
+    "artist": "Justhea",
+    "album": "Audio Library",
+    "genre": "Dance & Electronic + Calm",
+    "rating": 3
+  },
+  {
+    "fileChecksumCRC32": 267569680,
+    "title": "UFO",
+    "artist": "KV",
+    "album": "Audio Library",
+    "genre": "Dance & Electronic + Inspirational",
+    "rating": 3
+  }
 ]
