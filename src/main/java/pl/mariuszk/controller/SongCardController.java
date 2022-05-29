@@ -2,6 +2,7 @@ package pl.mariuszk.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,6 +13,7 @@ import pl.mariuszk.model.Song;
 import javax.naming.OperationNotSupportedException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,7 @@ public class SongCardController {
 
     private static final int MAX_TEXT_FIELD_LENGTH = 35;
     private static final String STAR_CSS_CLASS = "star-generic";
+    private static final int STARS_COUNT = 5;
 
     @FXML
     private Button btnSaveSongCard;
@@ -28,6 +31,8 @@ public class SongCardController {
     private Button btnEditSongCard;
     @FXML
     private Button btnPlaySongCard;
+    @FXML
+    private Button btnDiscardChanges;
     @FXML
     private Label lblSongTitle;
     @FXML
@@ -61,6 +66,7 @@ public class SongCardController {
 
     private FontIcon[] emptyStars;
     private FontIcon[] filledStars;
+    private Song cardValuesSnapshot;
 
     public void initialize() {
         emptyStars = new FontIcon[] {starEmpty1, starEmpty2, starEmpty3, starEmpty4, starEmpty5};
@@ -141,17 +147,43 @@ public class SongCardController {
     }
 
     private void setStars(int rating) {
-        for (int i = 0; i < rating; i++) {
-            filledStars[i].setVisible(true);
+        for (int i = 0; i < STARS_COUNT; i++) {
+            if (i < rating) {
+                filledStars[i].setVisible(true);
+                continue;
+            }
+            filledStars[i].setVisible(false);
         }
     }
 
     @FXML
     void editSongCard(ActionEvent event) {
-        btnSaveSongCard.setDisable(false);
-        btnEditSongCard.setDisable(true);
+        takeFieldsSnapshot();
+        toggleButtonsIntoEditMode(true);
         toggleTextFieldsEditability(true);
         toggleEmptyStarsDisabledProp(false);
+    }
+
+    private void takeFieldsSnapshot() {
+        cardValuesSnapshot = Song.builder()
+                .title(inputTitle.getText())
+                .artist(inputArtist.getText())
+                .album(inputAlbum.getText())
+                .genre(inputGenre.getText())
+                .rating(getCurrentlySetRating())
+                .build();
+    }
+
+    private int getCurrentlySetRating() {
+        return (int) Arrays.stream(filledStars)
+                .filter(Node::isVisible)
+                .count();
+    }
+
+    private void toggleButtonsIntoEditMode(boolean editMode) {
+        btnSaveSongCard.setDisable(!editMode);
+        btnEditSongCard.setDisable(editMode);
+        btnDiscardChanges.setVisible(editMode);
     }
 
     private void toggleTextFieldsEditability(boolean editable) {
@@ -180,5 +212,13 @@ public class SongCardController {
     @FXML
     void saveSongCard(ActionEvent event) throws OperationNotSupportedException {
         throw new OperationNotSupportedException();
+    }
+
+    @FXML
+    void discardChanges(ActionEvent event) {
+        toggleButtonsIntoEditMode(false);
+        toggleTextFieldsEditability(false);
+        toggleEmptyStarsDisabledProp(true);
+        setFieldsBasedOnSavedData(cardValuesSnapshot);
     }
 }

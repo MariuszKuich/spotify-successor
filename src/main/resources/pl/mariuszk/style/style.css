@@ -74,18 +74,18 @@
     -fx-border-color: #6655cc;
     -fx-border-radius: 4;
 }
-#btn-card-save {
-    -fx-background-color: #fcb790;
-    -fx-background-radius: 4;
-    -fx-border-color: #e55200;
-    -fx-border-radius: 4;
-}
 #btn-card-edit:hover {
     -fx-background-color: #d5d0f5;
     -fx-background-radius: 4;
     -fx-border-color: #6655cc;
     -fx-border-radius: 4;
     -fx-cursor: hand;
+}
+#btn-card-save {
+    -fx-background-color: #fcb790;
+    -fx-background-radius: 4;
+    -fx-border-color: #e55200;
+    -fx-border-radius: 4;
 }
 #btn-card-save:hover {
     -fx-background-color: #f7ceb7;
@@ -118,5 +118,18 @@
     -fx-background: #ddd6ea;
 }
 .star-generic:hover {
+    -fx-cursor: hand;
+}
+#btn-card-discard {
+    -fx-background-color: #f0c99e;
+    -fx-background-radius: 4;
+    -fx-border-color: #ed8e1c;
+    -fx-border-radius: 4;
+}
+#btn-card-discard:hover {
+    -fx-background-color: #fce2c5;
+    -fx-background-radius: 4;
+    -fx-border-color: #ed8e1c;
+    -fx-border-radius: 4;
     -fx-cursor: hand;
 }
