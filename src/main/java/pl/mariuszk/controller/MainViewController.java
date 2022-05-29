@@ -216,11 +216,12 @@ public class MainViewController {
         }
     }
 
-    private void resetPlayback(String songsFilePath) throws FileNotFoundException {
+    private void resetPlayback(String songsFilePath) throws IOException {
         songController.pauseSong();
         cancelProgressBarUpdating();
         resetProgressBar();
         songController = new SongController(volumeSlider.getValue(), songsFilePath);
+        loadSongsCardsToGridPane();
         updateCurrentSongTitle();
     }
 

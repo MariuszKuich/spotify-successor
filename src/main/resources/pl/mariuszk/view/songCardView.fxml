@@ -63,11 +63,6 @@
             <Font name="Wingdings" size="11.0" />
          </font>
       </TextField>
-      <FontIcon fx:id="starEmpty1" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="10.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
-      <FontIcon fx:id="starEmpty2" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="34.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
-      <FontIcon fx:id="starEmpty3" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="58.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
-      <FontIcon fx:id="starEmpty4" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="82.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
-      <FontIcon fx:id="starEmpty5" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="106.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled1" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="10.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled2" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="34.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starFilled3" iconLiteral="dashicons-star-filled" iconSize="25" layoutX="58.0" layoutY="260.0" visible="false" AnchorPane.bottomAnchor="10.0" />
@@ -78,5 +73,10 @@
             <FontIcon iconLiteral="dashicons-album" iconSize="15" selectionEnd="1" selectionStart="1" />
          </graphic>
       </Button>
+      <FontIcon fx:id="starEmpty3" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="58.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty1" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="10.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty2" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="34.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty4" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="82.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
+      <FontIcon fx:id="starEmpty5" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="106.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
    </children>
 </AnchorPane>

@@ -117,3 +117,6 @@
     -fx-background-color: #ddd6ea;
     -fx-background: #ddd6ea;
 }
+.star-generic:hover {
+    -fx-cursor: hand;
+}

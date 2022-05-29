@@ -19,6 +19,9 @@ import static org.apache.commons.io.FileUtils.checksumCRC32;
 
 public class SongCardController {
 
+    private static final int MAX_TEXT_FIELD_LENGTH = 35;
+    private static final String STAR_CSS_CLASS = "star-generic";
+
     @FXML
     private Button btnSaveSongCard;
     @FXML
@@ -62,6 +65,56 @@ public class SongCardController {
     public void initialize() {
         emptyStars = new FontIcon[] {starEmpty1, starEmpty2, starEmpty3, starEmpty4, starEmpty5};
         filledStars = new FontIcon[] {starFilled1, starFilled2, starFilled3, starFilled4, starFilled5};
+        configureTextFieldsMaxLength();
+        configureEmptyStarsClickEvents();
+    }
+
+    private void configureTextFieldsMaxLength() {
+        addTextLimiter(inputTitle);
+        addTextLimiter(inputArtist);
+        addTextLimiter(inputAlbum);
+        addTextLimiter(inputGenre);
+    }
+
+    private void addTextLimiter(TextField textField) {
+        textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue.length() > MAX_TEXT_FIELD_LENGTH) {
+                textField.setText(oldValue);
+            }
+        });
+    }
+
+    private void configureEmptyStarsClickEvents() {
+        starEmpty1.setOnMouseClicked((event) -> {
+            showStars(starFilled1);
+            hideStars(starFilled2, starFilled3, starFilled4, starFilled5);
+        });
+        starEmpty2.setOnMouseClicked((event) -> {
+            showStars(starFilled1, starFilled2);
+            hideStars(starFilled3, starFilled4, starFilled5);
+        });
+        starEmpty3.setOnMouseClicked((event) -> {
+            showStars(starFilled1, starFilled2, starFilled3);
+            hideStars(starFilled4, starFilled5);
+        });
+        starEmpty4.setOnMouseClicked((event) -> {
+            showStars(starFilled1, starFilled2, starFilled3, starFilled4);
+            hideStars(starFilled5);
+        });
+        starEmpty5.setOnMouseClicked((event) ->
+                showStars(starFilled1, starFilled2, starFilled3, starFilled4, starFilled5));
+    }
+
+    private void showStars(FontIcon... stars) {
+        for (FontIcon star : stars) {
+            star.setVisible(true);
+        }
+    }
+
+    private void hideStars(FontIcon... stars) {
+        for (FontIcon star : stars) {
+            star.setVisible(false);
+        }
     }
 
     public void setCardFields(File song, List<Song> savedSongsData) throws IOException {
@@ -89,14 +142,34 @@ public class SongCardController {
 
     private void setStars(int rating) {
         for (int i = 0; i < rating; i++) {
-            emptyStars[i].setVisible(false);
             filledStars[i].setVisible(true);
         }
     }
 
     @FXML
-    void editSongCard(ActionEvent event) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+    void editSongCard(ActionEvent event) {
+        btnSaveSongCard.setDisable(false);
+        btnEditSongCard.setDisable(true);
+        toggleTextFieldsEditability(true);
+        toggleEmptyStarsDisabledProp(false);
+    }
+
+    private void toggleTextFieldsEditability(boolean editable) {
+        inputTitle.setEditable(editable);
+        inputArtist.setEditable(editable);
+        inputAlbum.setEditable(editable);
+        inputGenre.setEditable(editable);
+    }
+
+    private void toggleEmptyStarsDisabledProp(boolean disabled) {
+        for (FontIcon emptyStar : emptyStars) {
+            emptyStar.setDisable(disabled);
+            if (disabled) {
+                emptyStar.getStyleClass().clear();
+            } else {
+                emptyStar.getStyleClass().add(STAR_CSS_CLASS);
+            }
+        }
     }
 
     @FXML
