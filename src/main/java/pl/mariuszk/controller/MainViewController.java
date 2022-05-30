@@ -29,6 +29,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static pl.mariuszk.enums.FileType.MP3;
+import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
+import static pl.mariuszk.util.AlertUtil.displayWarningPopup;
 import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
 import static pl.mariuszk.util.FileLoader.loadSongCardPaneAndController;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedSongsData;
@@ -90,6 +92,8 @@ public class MainViewController {
     }
 
     private void loadSongsCardsToGridPane() throws IOException {
+        clearGridPane();
+
         int colNum = 0;
         int rowNum = 0;
         List<Song> savedSongsData = loadSavedSongsData();
@@ -105,6 +109,10 @@ public class MainViewController {
             songCardsGridPane.add(paneController.getSongCardPane(), colNum++, rowNum);
             adjustGridPropertiesForPane(paneController.getSongCardPane());
         }
+    }
+
+    private void clearGridPane() {
+        songCardsGridPane.getChildren().clear();
     }
 
     private void adjustGridPropertiesForPane(AnchorPane songCardPane) {
@@ -127,11 +135,6 @@ public class MainViewController {
 
     private void setGridPaneWidthProperty() {
         songCardsGridPane.prefWidthProperty().bind(songCardsScrollPane.widthProperty());
-    }
-
-    private void displayErrorPopup(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage);
-        alert.showAndWait();
     }
 
     @FXML
@@ -200,11 +203,6 @@ public class MainViewController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(DIRECTORY_CHOOSER_LABEL);
         return directoryChooser.showDialog(new Stage());
-    }
-
-    private void displayWarningPopup(String warningMessage) {
-        Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage);
-        alert.show();
     }
 
     @FXML

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.apache.commons.io.FileUtils.checksumCRC32;
+import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
+import static pl.mariuszk.util.json.JsonFileWriter.saveSongData;
 
 public class SongCardController {
 
@@ -67,6 +69,7 @@ public class SongCardController {
     private FontIcon[] emptyStars;
     private FontIcon[] filledStars;
     private Song cardValuesSnapshot;
+    private File songFile;
 
     public void initialize() {
         emptyStars = new FontIcon[] {starEmpty1, starEmpty2, starEmpty3, starEmpty4, starEmpty5};
@@ -124,15 +127,16 @@ public class SongCardController {
     }
 
     public void setCardFields(File song, List<Song> savedSongsData) throws IOException {
-        lblSongTitle.setText(FilenameUtils.removeExtension(song.getName()));
+        this.songFile = song;
+        lblSongTitle.setText(FilenameUtils.removeExtension(songFile.getName()));
         btnSaveSongCard.setDisable(true);
 
-        Optional<Song> savedSongData = getSongDataIfPresent(song, savedSongsData);
+        Optional<Song> savedSongData = getSongDataIfPresent(savedSongsData);
         savedSongData.ifPresent(this::setFieldsBasedOnSavedData);
     }
 
-    private Optional<Song> getSongDataIfPresent(File song, List<Song> savedSongsData) throws IOException {
-        long songChecksum = checksumCRC32(song);
+    private Optional<Song> getSongDataIfPresent(List<Song> savedSongsData) throws IOException {
+        long songChecksum = checksumCRC32(songFile);
         return savedSongsData.stream()
                 .filter(songData -> songData.getFileChecksumCRC32() == songChecksum)
                 .findFirst();
@@ -159,9 +163,7 @@ public class SongCardController {
     @FXML
     void editSongCard(ActionEvent event) {
         takeFieldsSnapshot();
-        toggleButtonsIntoEditMode(true);
-        toggleTextFieldsEditability(true);
-        toggleEmptyStarsDisabledProp(false);
+        toggleControlsIntoEditMode();
     }
 
     private void takeFieldsSnapshot() {
@@ -178,6 +180,18 @@ public class SongCardController {
         return (int) Arrays.stream(filledStars)
                 .filter(Node::isVisible)
                 .count();
+    }
+
+    private void toggleControlsIntoEditMode() {
+        toggleButtonsIntoEditMode(true);
+        toggleTextFieldsEditability(true);
+        toggleEmptyStarsDisabledProp(false);
+    }
+
+    private void toggleControlsIntoReadOnlyMode() {
+        toggleButtonsIntoEditMode(false);
+        toggleTextFieldsEditability(false);
+        toggleEmptyStarsDisabledProp(true);
     }
 
     private void toggleButtonsIntoEditMode(boolean editMode) {
@@ -210,15 +224,24 @@ public class SongCardController {
     }
 
     @FXML
-    void saveSongCard(ActionEvent event) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+    void saveSongCard(ActionEvent event) {
+        takeFieldsSnapshot();
+        try {
+            saveFileChecksumToSnapshot();
+            saveSongData(cardValuesSnapshot);
+            toggleControlsIntoReadOnlyMode();
+        } catch (IOException e) {
+            displayErrorPopup(e.getMessage());
+        }
+    }
+
+    private void saveFileChecksumToSnapshot() throws IOException {
+        cardValuesSnapshot.setFileChecksumCRC32(checksumCRC32(songFile));
     }
 
     @FXML
     void discardChanges(ActionEvent event) {
-        toggleButtonsIntoEditMode(false);
-        toggleTextFieldsEditability(false);
-        toggleEmptyStarsDisabledProp(true);
+        toggleControlsIntoReadOnlyMode();
         setFieldsBasedOnSavedData(cardValuesSnapshot);
     }
 }
