@@ -56,17 +56,19 @@ public class SongController {
     }
 
     public void nextSong() {
-        mediaPlayer.dispose();
         incrementCurrentSongIndex();
+        reloadPlayback();
+    }
+
+    private void reloadPlayback() {
+        mediaPlayer.dispose();
         loadMedia();
         playSong();
     }
 
     public void previousSong() {
-        mediaPlayer.dispose();
         decrementCurrentSongIndex();
-        loadMedia();
-        playSong();
+        reloadPlayback();
     }
 
     private void incrementCurrentSongIndex() {
@@ -81,6 +83,20 @@ public class SongController {
         if (currentSongIndex < 0) {
             currentSongIndex = songs.size() - 1;
         }
+    }
+
+    public void playGivenSong(File song) {
+        int songIdx = songs.indexOf(song);
+        if (songNotFound(songIdx)) {
+            return;
+        }
+
+        currentSongIndex = songIdx;
+        reloadPlayback();
+    }
+
+    private boolean songNotFound(int songIdx) {
+        return songIdx == -1;
     }
 
     public void changeVolume(double volumePercent) {

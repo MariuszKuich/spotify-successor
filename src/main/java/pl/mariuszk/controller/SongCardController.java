@@ -10,7 +10,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import pl.mariuszk.model.Song;
 
-import javax.naming.OperationNotSupportedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.apache.commons.io.FileUtils.checksumCRC32;
+import static pl.mariuszk.SpotifySuccessor.mainControllerHandle;
 import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
 import static pl.mariuszk.util.json.JsonFileWriter.saveSongData;
 
@@ -31,8 +31,6 @@ public class SongCardController {
     private Button btnSaveSongCard;
     @FXML
     private Button btnEditSongCard;
-    @FXML
-    private Button btnPlaySongCard;
     @FXML
     private Button btnDiscardChanges;
     @FXML
@@ -71,7 +69,8 @@ public class SongCardController {
     private Song cardValuesSnapshot;
     private File songFile;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         emptyStars = new FontIcon[] {starEmpty1, starEmpty2, starEmpty3, starEmpty4, starEmpty5};
         filledStars = new FontIcon[] {starFilled1, starFilled2, starFilled3, starFilled4, starFilled5};
         configureTextFieldsMaxLength();
@@ -219,8 +218,8 @@ public class SongCardController {
     }
 
     @FXML
-    void playSong(ActionEvent event) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
+    void playSong(ActionEvent event) {
+        mainControllerHandle.playGivenMedia(songFile);
     }
 
     @FXML

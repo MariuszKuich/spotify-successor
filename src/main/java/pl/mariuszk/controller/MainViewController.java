@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -67,7 +66,8 @@ public class MainViewController {
     private SongController songController;
     private Timer timer;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         try {
             songController = initSongsController();
             loadSongsCardsToGridPane();
@@ -253,5 +253,11 @@ public class MainViewController {
             return;
         }
         timer.cancel();
+    }
+
+    void playGivenMedia(File songFile) {
+        songController.playGivenSong(songFile);
+        scheduleProgressBarUpdating();
+        updateCurrentSongTitle();
     }
 }

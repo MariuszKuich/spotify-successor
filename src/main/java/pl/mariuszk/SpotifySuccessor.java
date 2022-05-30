@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.mariuszk.controller.MainViewController;
 
 import java.io.IOException;
 
@@ -17,9 +18,13 @@ public class SpotifySuccessor extends Application {
     private static final int MIN_WIDTH = 1034;
     private static final int MIN_HEIGHT = 568;
 
+    public static MainViewController mainControllerHandle;
+
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(MAIN_VIEW_PATH));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(MAIN_VIEW_PATH));
+        Parent root = fxmlLoader.load();
+        mainControllerHandle = fxmlLoader.getController();
         stage.setTitle(TITLE);
         stage.setScene(new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT));
         stage.setMinHeight(MIN_HEIGHT);
