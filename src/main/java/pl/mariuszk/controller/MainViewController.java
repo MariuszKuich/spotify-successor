@@ -20,7 +20,6 @@ import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +79,7 @@ public class MainViewController {
         }
     }
 
-    private SongController initSongsController() throws FileNotFoundException {
+    private SongController initSongsController() throws IOException {
         Optional<SongsDirectory> songsDirectory = readSavedFilePath();
         if (songsDirectory.isPresent()) {
             String savedFilePath = songsDirectory.get().getFilePath();

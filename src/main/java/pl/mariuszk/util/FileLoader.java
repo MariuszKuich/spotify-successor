@@ -11,17 +11,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static org.apache.commons.io.FileUtils.checksumCRC32;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class FileLoader {
 
     private static final String SONG_CARD_VIEW_FILE_PATH = "/pl/mariuszk/view/songCardView.fxml";
 
-    public static List<File> loadFiles(String filePath, String extension) throws FileNotFoundException {
+    public static List<File> loadFiles(String filePath, String extension) throws IOException {
         String resourcePath;
         if (Paths.get(filePath).isAbsolute()) {
             resourcePath = filePath;
@@ -34,13 +38,28 @@ public final class FileLoader {
         if (files == null) {
             return Collections.emptyList();
         }
-        return Arrays.asList(files);
+
+        return getFilesWithoutDuplicates(files);
     }
 
     private static String getAbsolutePathOfResource(String filePath) throws FileNotFoundException {
         return Optional.ofNullable(FileLoader.class.getResource(filePath))
                 .map(URL::getPath)
                 .orElseThrow(() -> new FileNotFoundException("Could not find or access directory " + filePath));
+    }
+
+    private static List<File> getFilesWithoutDuplicates(File[] files) throws IOException {
+        Map<Long, File> uniqueFiles = new HashMap<>();
+
+        for (File file : files) {
+            long fileChecksum = checksumCRC32(file);
+            if (uniqueFiles.containsKey(fileChecksum)) {
+                continue;
+            }
+            uniqueFiles.put(fileChecksum, file);
+        }
+
+        return new ArrayList<>(uniqueFiles.values());
     }
 
     public static boolean dictionaryContainsAnyFileWithExtension(File directory, String extension) {

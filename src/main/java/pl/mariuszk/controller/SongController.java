@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import static pl.mariuszk.enums.FileType.MP3;
@@ -22,11 +22,11 @@ public class SongController {
     private int currentSongIndex = 0;
     private double volumePercent;
 
-    public SongController(double initialVolumePercent) throws FileNotFoundException {
+    public SongController(double initialVolumePercent) throws IOException {
         this(initialVolumePercent, DEFAULT_SONGS_FILE_PATH);
     }
 
-    public SongController(double initialVolumePercent, String songsFilePath) throws FileNotFoundException {
+    public SongController(double initialVolumePercent, String songsFilePath) throws IOException {
         this.volumePercent = initialVolumePercent;
         songs = loadFiles(songsFilePath, MP3.getFileExtension());
         loadMedia();
