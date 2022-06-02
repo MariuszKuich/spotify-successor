@@ -3,6 +3,7 @@ package pl.mariuszk.util.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongsDirectory;
 
@@ -35,5 +36,10 @@ public final class JsonFileWriter extends JsonFileHandler {
     private static void insertNewSongDataIntoExistingData(List<Song> songsData, Song newSongData) {
         songsData.remove(newSongData);
         songsData.add(newSongData);
+    }
+
+    public static void persistPlaylistsData(List<Playlist> playlists) throws IOException {
+        URL resource = loadPlaylistsJsonFileAsAResource();
+        mapper.writeValue(new File(resource.getPath()), playlists);
     }
 }

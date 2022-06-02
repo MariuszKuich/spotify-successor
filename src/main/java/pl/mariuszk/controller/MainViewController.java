@@ -7,32 +7,44 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
+import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import static pl.mariuszk.enums.FileType.MP3;
+import static pl.mariuszk.util.AlertUtil.INCORRECT_PLAYLIST_NAME;
+import static pl.mariuszk.util.AlertUtil.NO_MP3_FILES_FOUND;
 import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
 import static pl.mariuszk.util.AlertUtil.displayWarningPopup;
+import static pl.mariuszk.util.ControlsUtil.addTextLimiter;
 import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
 import static pl.mariuszk.util.FileLoader.loadSongCardPaneAndController;
+import static pl.mariuszk.util.json.JsonFileReader.loadSavedPlaylists;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedSongsData;
 import static pl.mariuszk.util.json.JsonFileReader.readSavedFilePath;
+import static pl.mariuszk.util.json.JsonFileWriter.persistPlaylistsData;
 import static pl.mariuszk.util.json.JsonFileWriter.saveUsersFilePath;
 
 public class MainViewController {
@@ -41,9 +53,9 @@ public class MainViewController {
     private static final Long TIMER_DELAY_MS = 5L;
     private static final Long TIMER_PERIOD_MS = 1000L;
     private static final String DIRECTORY_CHOOSER_LABEL = "Choose a directory with your music";
-    private static final String NO_MP3_FILES_FOUND = "Selected directory doesn't contain any MP3 file";
     private static final int GRID_PANE_COLUMNS_COUNT = 3;
     private static final Insets GRID_CELL_MARGIN = new Insets(10);
+    private static final int PLAYLIST_NAME_MAX_LENGTH = 26;
 
     @FXML
     private ProgressBar progressBar;
@@ -61,9 +73,28 @@ public class MainViewController {
     private GridPane songCardsGridPane;
     @FXML
     private ScrollPane songCardsScrollPane;
+    @FXML
+    private Button btnAddPlaylist;
+    @FXML
+    private TextField inputPlaylistName;
+    @FXML
+    private Button btnPlaylistCancel;
+    @FXML
+    private ChoiceBox<String> cbPlaylists;
+    @FXML
+    private Button btnPlaylistSave;
+    @FXML
+    private Button btnPlayAll;
+    @FXML
+    private Button btnPlayPlaylist;
+    @FXML
+    private Button btnDeletePlaylist;
+    @FXML
+    private ListView<?> lvPlaylistSongs;
 
     private SongController songController;
     private Timer timer;
+    private List<Playlist> playlists;
 
     @FXML
     private void initialize() {
@@ -71,8 +102,8 @@ public class MainViewController {
             songController = initSongsController();
             loadSongsCardsToGridPane();
             updateCurrentSongTitle();
-            addVolumeSliderListener();
-            setGridPaneWidthProperty();
+            loadSavedPlaylistsData();
+            configureControlsProperties();
         } catch (Exception e) {
             displayErrorPopup(e.getMessage());
             Platform.exit();
@@ -128,8 +159,26 @@ public class MainViewController {
         lblSongName.setText(songController.getCurrentSongName());
     }
 
+    private void loadSavedPlaylistsData() throws FileNotFoundException {
+        playlists = loadSavedPlaylists();
+        updatePlaylistsChoiceBox();
+    }
+
+    private void configureControlsProperties() {
+        addVolumeSliderListener();
+        addPlaylistChoiceBoxListener();
+        setGridPaneWidthProperty();
+        addTextLimiter(inputPlaylistName, PLAYLIST_NAME_MAX_LENGTH);
+    }
+
     private void addVolumeSliderListener() {
         volumeSlider.valueProperty().addListener((arg0, arg1, arg2) -> songController.changeVolume(volumeSlider.getValue()));
+    }
+
+    private void addPlaylistChoiceBoxListener() {
+        cbPlaylists.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            btnDeletePlaylist.setDisable(false);
+        });
     }
 
     private void setGridPaneWidthProperty() {
@@ -258,5 +307,89 @@ public class MainViewController {
         songController.playGivenSong(songFile);
         scheduleProgressBarUpdating();
         updateCurrentSongTitle();
+    }
+
+    @FXML
+    void addPlaylist(ActionEvent event) {
+        toggleVisibilityOfControlsForAddingNewPlaylist(true);
+    }
+
+    private void toggleVisibilityOfControlsForAddingNewPlaylist(boolean visible) {
+        btnAddPlaylist.setVisible(!visible);
+        inputPlaylistName.setVisible(visible);
+        btnPlaylistCancel.setVisible(visible);
+        btnPlaylistSave.setVisible(visible);
+    }
+
+    @FXML
+    void savePlaylist(ActionEvent event) {
+        String playlistName = inputPlaylistName.getText();
+
+        if (playlistNameBlankOrNotUnique(playlistName)) {
+            displayWarningPopup(INCORRECT_PLAYLIST_NAME);
+            return;
+        }
+
+        saveNewPlaylist(playlistName.trim());
+        finishPlaylistAdding();
+    }
+
+    private boolean playlistNameBlankOrNotUnique(String name) {
+        return StringUtils.isBlank(name) || cbPlaylists.getItems().stream().anyMatch(item -> item.equals(name.trim()));
+    }
+
+    private void saveNewPlaylist(String playlistName) {
+        Playlist newPlaylist = Playlist.builder().name(playlistName).filesChecksums(Collections.emptyList()).build();
+        playlists.add(newPlaylist);
+        updatePlaylistsData();
+        updatePlaylistsChoiceBox();
+    }
+
+    private void updatePlaylistsData() {
+        try {
+            persistPlaylistsData(playlists);
+        } catch (IOException e) {
+            displayErrorPopup(e.getMessage());
+            Platform.exit();
+        }
+    }
+
+    private void updatePlaylistsChoiceBox() {
+        cbPlaylists.getItems().clear();
+        cbPlaylists.getItems().addAll(playlists.stream().map(Playlist::getName).collect(Collectors.toList()));
+    }
+
+    private void finishPlaylistAdding() {
+        inputPlaylistName.clear();
+        toggleVisibilityOfControlsForAddingNewPlaylist(false);
+    }
+
+    @FXML
+    void cancelPlaylistAdding(ActionEvent event) {
+        finishPlaylistAdding();
+    }
+
+    @FXML
+    void deleteSelectedPlaylist(ActionEvent event) {
+        Optional<Playlist> playlistToDelete = playlists.stream()
+                .filter(playlist -> playlist.getName().equals(cbPlaylists.getSelectionModel().getSelectedItem()))
+                .findFirst();
+
+        playlistToDelete.ifPresent(playlist -> {
+            playlists.remove(playlist);
+            updatePlaylistsData();
+            updatePlaylistsChoiceBox();
+            btnDeletePlaylist.setDisable(true);
+        });
+    }
+
+    @FXML
+    void playAllFromFolder(ActionEvent event) {
+
+    }
+
+    @FXML
+    void playFromPlaylist(ActionEvent event) {
+
     }
 }

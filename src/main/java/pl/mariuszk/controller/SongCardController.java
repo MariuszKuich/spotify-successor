@@ -19,6 +19,7 @@ import java.util.Optional;
 import static org.apache.commons.io.FileUtils.checksumCRC32;
 import static pl.mariuszk.SpotifySuccessor.mainControllerHandle;
 import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
+import static pl.mariuszk.util.ControlsUtil.addTextLimiter;
 import static pl.mariuszk.util.json.JsonFileWriter.saveSongData;
 
 public class SongCardController {
@@ -78,18 +79,10 @@ public class SongCardController {
     }
 
     private void configureTextFieldsMaxLength() {
-        addTextLimiter(inputTitle);
-        addTextLimiter(inputArtist);
-        addTextLimiter(inputAlbum);
-        addTextLimiter(inputGenre);
-    }
-
-    private void addTextLimiter(TextField textField) {
-        textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.length() > MAX_TEXT_FIELD_LENGTH) {
-                textField.setText(oldValue);
-            }
-        });
+        addTextLimiter(inputTitle, MAX_TEXT_FIELD_LENGTH);
+        addTextLimiter(inputArtist, MAX_TEXT_FIELD_LENGTH);
+        addTextLimiter(inputAlbum, MAX_TEXT_FIELD_LENGTH);
+        addTextLimiter(inputGenre, MAX_TEXT_FIELD_LENGTH);
     }
 
     private void configureEmptyStarsClickEvents() {

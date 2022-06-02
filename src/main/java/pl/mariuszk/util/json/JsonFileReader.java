@@ -6,12 +6,14 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongsDirectory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +51,20 @@ public final class JsonFileReader extends JsonFileHandler {
             return savedSongsData;
         } catch (IOException e) {
             return Collections.emptyList();
+        }
+    }
+
+    public static List<Playlist> loadSavedPlaylists() throws FileNotFoundException {
+        URL resource = loadPlaylistsJsonFileAsAResource();
+
+        try {
+            List<Playlist> savedPlaylists = mapper.readValue(resource, new TypeReference<>() { });
+            if (CollectionUtils.isEmpty(savedPlaylists)) {
+                return new ArrayList<>();
+            }
+            return savedPlaylists;
+        } catch (IOException e) {
+            return new ArrayList<>();
         }
     }
 }
