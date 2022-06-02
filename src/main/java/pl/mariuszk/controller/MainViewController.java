@@ -23,6 +23,7 @@ import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,7 +32,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Collectors;
 
 import static pl.mariuszk.enums.FileType.MP3;
 import static pl.mariuszk.util.AlertUtil.INCORRECT_PLAYLIST_NAME;
@@ -80,7 +80,7 @@ public class MainViewController {
     @FXML
     private Button btnPlaylistCancel;
     @FXML
-    private ChoiceBox<String> cbPlaylists;
+    private ChoiceBox<Playlist> cbPlaylists;
     @FXML
     private Button btnPlaylistSave;
     @FXML
@@ -356,7 +356,7 @@ public class MainViewController {
 
     private void updatePlaylistsChoiceBox() {
         cbPlaylists.getItems().clear();
-        cbPlaylists.getItems().addAll(playlists.stream().map(Playlist::getName).collect(Collectors.toList()));
+        cbPlaylists.getItems().addAll(playlists);
     }
 
     private void finishPlaylistAdding() {
@@ -371,16 +371,14 @@ public class MainViewController {
 
     @FXML
     void deleteSelectedPlaylist(ActionEvent event) {
-        Optional<Playlist> playlistToDelete = playlists.stream()
-                .filter(playlist -> playlist.getName().equals(cbPlaylists.getSelectionModel().getSelectedItem()))
-                .findFirst();
-
-        playlistToDelete.ifPresent(playlist -> {
-            playlists.remove(playlist);
+            playlists.remove(getSelectedPlaylist());
             updatePlaylistsData();
             updatePlaylistsChoiceBox();
             btnDeletePlaylist.setDisable(true);
-        });
+    }
+
+    private Playlist getSelectedPlaylist() {
+        return cbPlaylists.getSelectionModel().getSelectedItem();
     }
 
     @FXML
