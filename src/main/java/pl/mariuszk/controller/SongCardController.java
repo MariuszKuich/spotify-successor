@@ -236,4 +236,9 @@ public class SongCardController {
         toggleControlsIntoReadOnlyMode();
         setFieldsBasedOnSavedData(cardValuesSnapshot);
     }
+
+    @FXML
+    void addSongToPlaylist(ActionEvent event) {
+        mainControllerHandle.addSongToPlaylist(songFile);
+    }
 }

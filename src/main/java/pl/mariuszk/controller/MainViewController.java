@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import pl.mariuszk.model.Playlist;
+import pl.mariuszk.model.PlaylistItem;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
@@ -85,7 +86,7 @@ public class MainViewController {
     @FXML
     private Button btnDeletePlaylist;
     @FXML
-    private ListView<?> lvPlaylistSongs;
+    private ListView<String> lvPlaylistSongs;
 
     private SongController songController;
     private PlaylistController playlistController;
@@ -325,7 +326,6 @@ public class MainViewController {
             playlistController.saveNewPlaylist(playlistName);
         } catch (IOException e) {
             displayErrorPopup(e.getMessage());
-            Platform.exit();
         }
         updatePlaylistsChoiceBox();
         finishPlaylistAdding();
@@ -352,7 +352,6 @@ public class MainViewController {
             playlistController.removePlaylist(getSelectedPlaylist());
         } catch (IOException e) {
             displayErrorPopup(e.getMessage());
-            Platform.exit();
         }
         updatePlaylistsChoiceBox();
         btnDeletePlaylist.setDisable(true);
@@ -370,5 +369,26 @@ public class MainViewController {
     @FXML
     void playFromPlaylist(ActionEvent event) {
 
+    }
+
+    void addSongToPlaylist(File song) {
+        if (cbPlaylists.getSelectionModel().isEmpty()) {
+            return;
+        }
+
+        try {
+            playlistController.addSongToPlaylist(getSelectedPlaylist(), song);
+            updatePlaylistSongsListView();
+        } catch (IOException e) {
+            displayErrorPopup(e.getMessage());
+        }
+    }
+
+    private void updatePlaylistSongsListView() {
+        lvPlaylistSongs.getItems().clear();
+
+        for (PlaylistItem item : getSelectedPlaylist().getItems()) {
+            lvPlaylistSongs.getItems().add(item.getLastFileName());
+        }
     }
 }

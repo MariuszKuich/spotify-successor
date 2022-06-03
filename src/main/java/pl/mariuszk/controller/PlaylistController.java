@@ -1,14 +1,18 @@
 package pl.mariuszk.controller;
 
 import lombok.Getter;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import pl.mariuszk.model.Playlist;
+import pl.mariuszk.model.PlaylistItem;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.io.FileUtils.checksumCRC32;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedPlaylists;
 import static pl.mariuszk.util.json.JsonFileWriter.persistPlaylistsData;
 
@@ -28,13 +32,24 @@ public class PlaylistController {
     }
 
     public void saveNewPlaylist(String playlistName) throws IOException {
-        Playlist newPlaylist = Playlist.builder().name(playlistName).filesChecksums(Collections.emptyList()).build();
+        Playlist newPlaylist = Playlist.builder().name(playlistName).items(new ArrayList<>()).build();
         playlists.add(newPlaylist);
         persistPlaylistsData(playlists);
     }
 
     public void removePlaylist(Playlist playlist) throws IOException {
         playlists.remove(playlist);
+        persistPlaylistsData(playlists);
+    }
+
+    public void addSongToPlaylist(Playlist playlist, File song) throws IOException {
+        PlaylistItem newItem = PlaylistItem.builder()
+                .checksum(checksumCRC32(song))
+                .lastFileName(FilenameUtils.removeExtension(song.getName()))
+                .accessible(true)
+                .build();
+
+        playlist.getItems().add(newItem);
         persistPlaylistsData(playlists);
     }
 }

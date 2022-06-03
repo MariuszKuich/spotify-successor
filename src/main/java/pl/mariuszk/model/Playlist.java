@@ -10,7 +10,7 @@ import java.util.List;
 public class Playlist {
 
     private String name;
-    private List<Integer> filesChecksums;
+    private List<PlaylistItem> items;
 
     @Override
     public String toString() {

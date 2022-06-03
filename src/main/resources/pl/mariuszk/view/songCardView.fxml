@@ -78,9 +78,14 @@
       <FontIcon fx:id="starEmpty2" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="34.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starEmpty4" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="82.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
       <FontIcon fx:id="starEmpty5" disable="true" iconLiteral="dashicons-star-empty" iconSize="25" layoutX="106.0" layoutY="260.0" AnchorPane.bottomAnchor="10.0" />
-      <Button id="btn-card-discard" fx:id="btnDiscardChanges" layoutX="174.0" layoutY="228.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#discardChanges" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="5.0">
+      <Button id="btn-card-discard" fx:id="btnDiscardChanges" layoutX="155.0" layoutY="228.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#discardChanges" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="33.0">
          <graphic>
             <FontIcon iconLiteral="dashicons-undo" iconSize="15" selectionEnd="1" selectionStart="1" />
+         </graphic>
+      </Button>
+      <Button id="btn-card-playlist" fx:id="btnAddToPlaylist" layoutX="169.0" layoutY="228.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSongToPlaylist" prefHeight="22.0" prefWidth="22.0" stylesheets="@../style/style.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="5.0">
+         <graphic>
+            <FontIcon iconLiteral="dashicons-editor-ol" iconSize="15" />
          </graphic>
       </Button>
    </children>

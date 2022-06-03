@@ -133,3 +133,16 @@
     -fx-border-radius: 4;
     -fx-cursor: hand;
 }
+#btn-card-playlist {
+    -fx-background-color: #f5ffab;
+    -fx-background-radius: 4;
+    -fx-border-color: #a4ba00;
+    -fx-border-radius: 4;
+}
+#btn-card-playlist:hover {
+    -fx-background-color: #faffd9;
+    -fx-background-radius: 4;
+    -fx-border-color: #a4ba00;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
