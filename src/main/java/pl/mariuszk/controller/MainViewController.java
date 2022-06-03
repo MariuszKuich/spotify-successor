@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.commons.collections4.CollectionUtils;
 import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.PlaylistItem;
 import pl.mariuszk.model.Song;
@@ -27,17 +28,20 @@ import pl.mariuszk.model.SongsDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static pl.mariuszk.enums.FileType.MP3;
 import static pl.mariuszk.util.AlertUtil.INCORRECT_PLAYLIST_NAME;
+import static pl.mariuszk.util.AlertUtil.NO_ACCESSIBLE_SONGS;
 import static pl.mariuszk.util.AlertUtil.NO_MP3_FILES_FOUND;
 import static pl.mariuszk.util.AlertUtil.displayErrorPopup;
 import static pl.mariuszk.util.AlertUtil.displayWarningPopup;
 import static pl.mariuszk.util.ControlsUtil.addTextLimiter;
 import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
+import static pl.mariuszk.util.FileLoader.getFilesChecksumsMap;
 import static pl.mariuszk.util.FileLoader.loadSongCardPaneAndController;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedSongsData;
 import static pl.mariuszk.util.json.JsonFileReader.readSavedFilePath;
@@ -81,8 +85,6 @@ public class MainViewController {
     @FXML
     private Button btnPlaylistSave;
     @FXML
-    private Button btnPlayAll;
-    @FXML
     private Button btnPlayPlaylist;
     @FXML
     private Button btnDeletePlaylist;
@@ -92,11 +94,13 @@ public class MainViewController {
     private SongController songController;
     private PlaylistController playlistController;
     private Timer timer;
+    private Map<Long, File> availableFilesWithChecksums;
 
     @FXML
     private void initialize() {
         try {
             songController = initSongsController();
+            availableFilesWithChecksums = getFilesChecksumsMap(songController.getAllAvailableSongs());
             playlistController = new PlaylistController();
             loadSongsCardsToGridPane();
             updateCurrentSongTitle();
@@ -125,7 +129,7 @@ public class MainViewController {
         int colNum = 0;
         int rowNum = 0;
         List<Song> savedSongsData = loadSavedSongsData();
-        for (File song : songController.getSongs()) {
+        for (File song : songController.getAllAvailableSongs()) {
             SongCardPaneController paneController = loadSongCardPaneAndController();
             paneController.getSongCardController().setCardFields(song, savedSongsData);
 
@@ -171,13 +175,21 @@ public class MainViewController {
     private void addPlaylistChoiceBoxListener() {
         cbPlaylists.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue)  -> {
             if (newValue == null) {
+                btnPlayPlaylist.setDisable(true);
                 clearPlaylistSongsListView();
+                setPlaybackPlaylistInvalidated();
                 return;
             }
 
             btnDeletePlaylist.setDisable(false);
+            btnPlayPlaylist.setDisable(false);
             updatePlaylistSongsListView();
         });
+    }
+
+    private void setPlaybackPlaylistInvalidated() {
+        playAllFromFolder(null);
+        pauseMedia(null);
     }
 
     private void setGridPaneWidthProperty() {
@@ -266,6 +278,7 @@ public class MainViewController {
         cancelProgressBarUpdating();
         resetProgressBar();
         songController = new SongController(volumeSlider.getValue(), songsFilePath);
+        availableFilesWithChecksums = getFilesChecksumsMap(songController.getAllAvailableSongs());
         loadSongsCardsToGridPane();
         updateCurrentSongTitle();
         updatePlaylistSongsIfPlaylistPicked();
@@ -378,12 +391,23 @@ public class MainViewController {
 
     @FXML
     void playAllFromFolder(ActionEvent event) {
-
+        songController.changePlaylist(songController.getAllAvailableSongs());
+        scheduleProgressBarUpdating();
+        updateCurrentSongTitle();
     }
 
     @FXML
     void playFromPlaylist(ActionEvent event) {
+        List<File> songs = playlistController.getAvailableSongFiles(getSelectedPlaylist(), availableFilesWithChecksums);
 
+        if (CollectionUtils.isEmpty(songs)) {
+            displayWarningPopup(NO_ACCESSIBLE_SONGS);
+            return;
+        }
+
+        songController.changePlaylist(songs);
+        scheduleProgressBarUpdating();
+        updateCurrentSongTitle();
     }
 
     void addSongToPlaylist(File song) {
@@ -400,7 +424,7 @@ public class MainViewController {
     }
 
     private void updatePlaylistSongsListView() {
-        playlistController.verifySongsAvailability(getSelectedPlaylist(), songController.getSongs());
+        playlistController.verifySongsAvailability(getSelectedPlaylist(), availableFilesWithChecksums);
         clearPlaylistSongsListView();
 
         for (PlaylistItem item : getSelectedPlaylist().getItems()) {

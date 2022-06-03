@@ -77,7 +77,21 @@ public final class FileLoader {
                 .build();
     }
 
-    public static long checksumCRC32DefaultZero(File file) {
+    public static Map<Long, File> getFilesChecksumsMap(List<File> files) {
+        Map<Long, File> filesWithChecksums = new HashMap<>();
+
+        for (File file : files) {
+            long checksum = checksumCRC32DefaultZero(file);
+            if (checksum == 0L) {
+                continue;
+            }
+            filesWithChecksums.put(checksum, file);
+        }
+
+        return filesWithChecksums;
+    }
+
+    private static long checksumCRC32DefaultZero(File file) {
         try {
             return checksumCRC32(file);
         } catch (IOException e) {

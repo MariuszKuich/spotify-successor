@@ -5,14 +5,14 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.PlaylistItem;
-import pl.mariuszk.util.FileLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.apache.commons.io.FileUtils.checksumCRC32;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedPlaylists;
@@ -55,11 +55,19 @@ public class PlaylistController {
         persistPlaylistsData(playlists);
     }
 
-    public void verifySongsAvailability(Playlist playlist, List<File> availableSongsFiles) {
-        List<Long> filesChecksums = availableSongsFiles.stream()
-                .map(FileLoader::checksumCRC32DefaultZero)
-                .collect(Collectors.toList());
+    public void verifySongsAvailability(Playlist playlist, Map<Long, File> availableFilesWithChecksums) {
+        playlist.getItems().forEach(item -> item.setAccessible(availableFilesWithChecksums.containsKey(item.getChecksum())));
+    }
 
-        playlist.getItems().forEach(item -> item.setAccessible(filesChecksums.contains(item.getChecksum())));
+    public List<File> getAvailableSongFiles(Playlist playlist, Map<Long, File> availableFilesWithChecksums) {
+        List<File> availableFiles = new ArrayList<>();
+
+        for (PlaylistItem item : playlist.getItems()) {
+            long checksum = item.getChecksum();
+            Optional<File> file = Optional.ofNullable(availableFilesWithChecksums.get(checksum));
+            file.ifPresent(availableFiles::add);
+        }
+
+        return availableFiles;
     }
 }

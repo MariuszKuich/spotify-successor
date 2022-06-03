@@ -18,7 +18,8 @@ public class SongController {
     private static final String DEFAULT_SONGS_FILE_PATH = "/pl/mariuszk/songs";
     private MediaPlayer mediaPlayer;
     @Getter
-    private final List<File> songs;
+    private final List<File> allAvailableSongs;
+    private List<File> songsForPlayback;
     private int currentSongIndex = 0;
     private double volumePercent;
 
@@ -28,12 +29,13 @@ public class SongController {
 
     public SongController(double initialVolumePercent, String songsFilePath) throws IOException {
         this.volumePercent = initialVolumePercent;
-        songs = loadFiles(songsFilePath, MP3.getFileExtension());
+        allAvailableSongs = loadFiles(songsFilePath, MP3.getFileExtension());
+        songsForPlayback = allAvailableSongs;
         loadMedia();
     }
 
     private void loadMedia() {
-        Media media = new Media(songs.get(currentSongIndex).toURI().toString());
+        Media media = new Media(songsForPlayback.get(currentSongIndex).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         updateVolume();
     }
@@ -51,7 +53,7 @@ public class SongController {
     }
 
     public String getCurrentSongName() {
-        String fullFilename = songs.get(currentSongIndex).getName();
+        String fullFilename = songsForPlayback.get(currentSongIndex).getName();
         return FilenameUtils.removeExtension(fullFilename);
     }
 
@@ -73,7 +75,7 @@ public class SongController {
 
     private void incrementCurrentSongIndex() {
         currentSongIndex++;
-        if (currentSongIndex == songs.size()) {
+        if (currentSongIndex == songsForPlayback.size()) {
             currentSongIndex = 0;
         }
     }
@@ -81,12 +83,13 @@ public class SongController {
     private void decrementCurrentSongIndex() {
         currentSongIndex--;
         if (currentSongIndex < 0) {
-            currentSongIndex = songs.size() - 1;
+            currentSongIndex = songsForPlayback.size() - 1;
         }
     }
 
     public void playGivenSong(File song) {
-        int songIdx = songs.indexOf(song);
+        songsForPlayback = allAvailableSongs;
+        int songIdx = songsForPlayback.indexOf(song);
         if (songNotFound(songIdx)) {
             return;
         }
@@ -117,5 +120,11 @@ public class SongController {
 
     public double getSongsDuration() {
         return mediaPlayer.getTotalDuration().toSeconds();
+    }
+
+    public void changePlaylist(List<File> songs) {
+        songsForPlayback = songs;
+        currentSongIndex = 0;
+        reloadPlayback();
     }
 }
