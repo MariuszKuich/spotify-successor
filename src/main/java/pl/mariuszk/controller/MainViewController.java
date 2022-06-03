@@ -168,8 +168,14 @@ public class MainViewController {
     }
 
     private void addPlaylistChoiceBoxListener() {
-        cbPlaylists.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+        cbPlaylists.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue)  -> {
+            if (newValue == null) {
+                clearPlaylistSongsListView();
+                return;
+            }
+
             btnDeletePlaylist.setDisable(false);
+            updatePlaylistSongsListView();
         });
     }
 
@@ -385,10 +391,14 @@ public class MainViewController {
     }
 
     private void updatePlaylistSongsListView() {
-        lvPlaylistSongs.getItems().clear();
+        clearPlaylistSongsListView();
 
         for (PlaylistItem item : getSelectedPlaylist().getItems()) {
             lvPlaylistSongs.getItems().add(item.getLastFileName());
         }
+    }
+
+    private void clearPlaylistSongsListView() {
+        lvPlaylistSongs.getItems().clear();
     }
 }
