@@ -52,6 +52,7 @@ public class MainViewController {
     private static final int GRID_PANE_COLUMNS_COUNT = 3;
     private static final Insets GRID_CELL_MARGIN = new Insets(10);
     private static final int PLAYLIST_NAME_MAX_LENGTH = 26;
+    private static final String NOT_AVAILABLE_PREFIX = "[N/A] ";
 
     @FXML
     private ProgressBar progressBar;
@@ -267,6 +268,14 @@ public class MainViewController {
         songController = new SongController(volumeSlider.getValue(), songsFilePath);
         loadSongsCardsToGridPane();
         updateCurrentSongTitle();
+        updatePlaylistSongsIfPlaylistPicked();
+    }
+
+    private void updatePlaylistSongsIfPlaylistPicked() {
+        if (cbPlaylists.getSelectionModel().isEmpty()) {
+            return;
+        }
+        updatePlaylistSongsListView();
     }
 
     private void resetProgressBar() {
@@ -391,10 +400,12 @@ public class MainViewController {
     }
 
     private void updatePlaylistSongsListView() {
+        playlistController.verifySongsAvailability(getSelectedPlaylist(), songController.getSongs());
         clearPlaylistSongsListView();
 
         for (PlaylistItem item : getSelectedPlaylist().getItems()) {
-            lvPlaylistSongs.getItems().add(item.getLastFileName());
+            String label = item.isAccessible() ? item.getLastFileName() : NOT_AVAILABLE_PREFIX.concat(item.getLastFileName());
+            lvPlaylistSongs.getItems().add(label);
         }
     }
 

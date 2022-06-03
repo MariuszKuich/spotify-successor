@@ -76,4 +76,12 @@ public final class FileLoader {
                 .songCardController(fxmlLoader.getController())
                 .build();
     }
+
+    public static long checksumCRC32DefaultZero(File file) {
+        try {
+            return checksumCRC32(file);
+        } catch (IOException e) {
+            return 0L;
+        }
+    }
 }

@@ -5,12 +5,14 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.PlaylistItem;
+import pl.mariuszk.util.FileLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.io.FileUtils.checksumCRC32;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedPlaylists;
@@ -51,5 +53,13 @@ public class PlaylistController {
 
         playlist.getItems().add(newItem);
         persistPlaylistsData(playlists);
+    }
+
+    public void verifySongsAvailability(Playlist playlist, List<File> availableSongsFiles) {
+        List<Long> filesChecksums = availableSongsFiles.stream()
+                .map(FileLoader::checksumCRC32DefaultZero)
+                .collect(Collectors.toList());
+
+        playlist.getItems().forEach(item -> item.setAccessible(filesChecksums.contains(item.getChecksum())));
     }
 }
