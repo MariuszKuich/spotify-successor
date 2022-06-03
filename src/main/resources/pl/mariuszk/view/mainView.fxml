@@ -58,26 +58,49 @@
                   <Font name="Wingdings" size="22.0" />
                </font>
             </Label>
-            <Button fx:id="btnAddPlaylist" layoutX="27.0" layoutY="114.0" mnemonicParsing="false" onAction="#addPlaylist" prefHeight="18.0" prefWidth="162.0" text="Add a playlist" />
-            <ChoiceBox fx:id="cbPlaylists" layoutX="27.0" layoutY="186.0" prefHeight="26.0" prefWidth="125.0" />
-            <Button fx:id="btnPlayPlaylist" disable="true" layoutX="110.0" layoutY="220.0" mnemonicParsing="false" onAction="#playFromPlaylist" prefHeight="32.0" prefWidth="77.0" text="Play from playlist" wrapText="true">
+            <Button fx:id="btnAddPlaylist" layoutX="27.0" layoutY="114.0" mnemonicParsing="false" onAction="#addPlaylist" prefHeight="18.0" prefWidth="162.0" styleClass="btn-generic-left-pane" stylesheets="@../style/style.css" text="Add new playlist">
                <font>
-                  <Font size="8.0" />
+                  <Font name="Wingdings" size="12.0" />
+               </font></Button>
+            <ChoiceBox id="playlist-choice" fx:id="cbPlaylists" layoutX="27.0" layoutY="186.0" prefHeight="26.0" prefWidth="125.0" />
+            <Button fx:id="btnPlayPlaylist" alignment="CENTER" disable="true" layoutX="110.0" layoutY="220.0" mnemonicParsing="false" onAction="#playFromPlaylist" prefHeight="32.0" prefWidth="77.0" styleClass="btn-generic-left-pane" stylesheets="@../style/style.css" text="Playlist" wrapText="true">
+               <font>
+                  <Font name="Wingdings" size="12.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconLiteral="dashicons-controls-play" iconSize="20" selectionEnd="1" wrappingWidth="13.600006103515625" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnPlayAll" alignment="CENTER" layoutX="27.0" layoutY="220.0" mnemonicParsing="false" onAction="#playAllFromFolder" prefHeight="32.0" prefWidth="77.0" styleClass="btn-generic-left-pane" stylesheets="@../style/style.css" text="All">
+               <font>
+                  <Font name="Wingdings" size="12.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconLiteral="dashicons-controls-play" iconSize="20" selectionEnd="1" wrappingWidth="13.600006103515625" />
+               </graphic></Button>
+            <ListView id="list-view" fx:id="lvPlaylistSongs" layoutX="27.0" layoutY="262.0" prefHeight="203.0" prefWidth="160.0" />
+            <Button fx:id="btnPlaylistCancel" layoutX="26.0" layoutY="147.0" mnemonicParsing="false" onAction="#cancelPlaylistAdding" prefHeight="32.0" prefWidth="74.0" styleClass="btn-generic-left-pane" stylesheets="@../style/style.css" text="Cancel" visible="false">
+               <font>
+                  <Font name="Wingdings" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnPlayAll" layoutX="27.0" layoutY="220.0" mnemonicParsing="false" onAction="#playAllFromFolder" prefHeight="32.0" prefWidth="77.0" text="Play all" />
-            <ListView fx:id="lvPlaylistSongs" layoutX="27.0" layoutY="262.0" prefHeight="203.0" prefWidth="160.0" />
-            <Button fx:id="btnPlaylistCancel" layoutX="26.0" layoutY="147.0" mnemonicParsing="false" onAction="#cancelPlaylistAdding" prefHeight="32.0" prefWidth="74.0" text="Cancel" visible="false" />
-            <Button fx:id="btnPlaylistSave" layoutX="114.0" layoutY="147.0" mnemonicParsing="false" onAction="#savePlaylist" prefHeight="32.0" prefWidth="74.0" text="Add" visible="false" />
-            <TextField fx:id="inputPlaylistName" layoutX="27.0" layoutY="114.0" prefHeight="26.0" prefWidth="162.0" promptText="Add playlist's name" visible="false">
+            <Button fx:id="btnPlaylistSave" layoutX="114.0" layoutY="147.0" mnemonicParsing="false" onAction="#savePlaylist" prefHeight="32.0" prefWidth="74.0" styleClass="btn-generic-left-pane" stylesheets="@../style/style.css" text="Add" visible="false">
+               <font>
+                  <Font name="Wingdings" size="12.0" />
+               </font>
+            </Button>
+            <TextField id="playlist-text" fx:id="inputPlaylistName" layoutX="27.0" layoutY="114.0" prefHeight="26.0" prefWidth="162.0" promptText="Add playlist's name" visible="false">
                <font>
                   <Font name="Wingdings" size="12.0" />
                </font>
             </TextField>
-            <Button fx:id="btnDeletePlaylist" disable="true" layoutX="157.0" layoutY="186.0" mnemonicParsing="false" onAction="#deleteSelectedPlaylist" prefHeight="26.0" prefWidth="30.0" text="Del">
+            <Button fx:id="btnDeletePlaylist" disable="true" layoutX="157.0" layoutY="186.0" mnemonicParsing="false" onAction="#deleteSelectedPlaylist" prefHeight="26.0" prefWidth="30.0" styleClass="btn-generic-left-pane">
                <font>
                   <Font size="10.0" />
                </font>
+               <graphic>
+                  <FontIcon iconLiteral="dashicons-post-trash" iconSize="15" />
+               </graphic>
             </Button>
          </children>
       </AnchorPane>
