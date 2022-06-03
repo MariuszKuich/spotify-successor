@@ -18,16 +18,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 import pl.mariuszk.model.Playlist;
 import pl.mariuszk.model.Song;
 import pl.mariuszk.model.SongCardPaneController;
 import pl.mariuszk.model.SongsDirectory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
@@ -41,10 +38,8 @@ import static pl.mariuszk.util.AlertUtil.displayWarningPopup;
 import static pl.mariuszk.util.ControlsUtil.addTextLimiter;
 import static pl.mariuszk.util.FileLoader.dictionaryContainsAnyFileWithExtension;
 import static pl.mariuszk.util.FileLoader.loadSongCardPaneAndController;
-import static pl.mariuszk.util.json.JsonFileReader.loadSavedPlaylists;
 import static pl.mariuszk.util.json.JsonFileReader.loadSavedSongsData;
 import static pl.mariuszk.util.json.JsonFileReader.readSavedFilePath;
-import static pl.mariuszk.util.json.JsonFileWriter.persistPlaylistsData;
 import static pl.mariuszk.util.json.JsonFileWriter.saveUsersFilePath;
 
 public class MainViewController {
@@ -93,16 +88,17 @@ public class MainViewController {
     private ListView<?> lvPlaylistSongs;
 
     private SongController songController;
+    private PlaylistController playlistController;
     private Timer timer;
-    private List<Playlist> playlists;
 
     @FXML
     private void initialize() {
         try {
             songController = initSongsController();
+            playlistController = new PlaylistController();
             loadSongsCardsToGridPane();
             updateCurrentSongTitle();
-            loadSavedPlaylistsData();
+            updatePlaylistsChoiceBox();
             configureControlsProperties();
         } catch (Exception e) {
             displayErrorPopup(e.getMessage());
@@ -157,11 +153,6 @@ public class MainViewController {
 
     private void updateCurrentSongTitle() {
         lblSongName.setText(songController.getCurrentSongName());
-    }
-
-    private void loadSavedPlaylistsData() throws FileNotFoundException {
-        playlists = loadSavedPlaylists();
-        updatePlaylistsChoiceBox();
     }
 
     private void configureControlsProperties() {
@@ -325,38 +316,24 @@ public class MainViewController {
     void savePlaylist(ActionEvent event) {
         String playlistName = inputPlaylistName.getText();
 
-        if (playlistNameBlankOrNotUnique(playlistName)) {
+        if (playlistController.playlistNameBlankOrNotUnique(playlistName)) {
             displayWarningPopup(INCORRECT_PLAYLIST_NAME);
             return;
         }
 
-        saveNewPlaylist(playlistName.trim());
-        finishPlaylistAdding();
-    }
-
-    private boolean playlistNameBlankOrNotUnique(String name) {
-        return StringUtils.isBlank(name) || cbPlaylists.getItems().stream().anyMatch(item -> item.equals(name.trim()));
-    }
-
-    private void saveNewPlaylist(String playlistName) {
-        Playlist newPlaylist = Playlist.builder().name(playlistName).filesChecksums(Collections.emptyList()).build();
-        playlists.add(newPlaylist);
-        updatePlaylistsData();
-        updatePlaylistsChoiceBox();
-    }
-
-    private void updatePlaylistsData() {
         try {
-            persistPlaylistsData(playlists);
+            playlistController.saveNewPlaylist(playlistName);
         } catch (IOException e) {
             displayErrorPopup(e.getMessage());
             Platform.exit();
         }
+        updatePlaylistsChoiceBox();
+        finishPlaylistAdding();
     }
 
     private void updatePlaylistsChoiceBox() {
         cbPlaylists.getItems().clear();
-        cbPlaylists.getItems().addAll(playlists);
+        cbPlaylists.getItems().addAll(playlistController.getPlaylists());
     }
 
     private void finishPlaylistAdding() {
@@ -371,10 +348,14 @@ public class MainViewController {
 
     @FXML
     void deleteSelectedPlaylist(ActionEvent event) {
-            playlists.remove(getSelectedPlaylist());
-            updatePlaylistsData();
-            updatePlaylistsChoiceBox();
-            btnDeletePlaylist.setDisable(true);
+        try {
+            playlistController.removePlaylist(getSelectedPlaylist());
+        } catch (IOException e) {
+            displayErrorPopup(e.getMessage());
+            Platform.exit();
+        }
+        updatePlaylistsChoiceBox();
+        btnDeletePlaylist.setDisable(true);
     }
 
     private Playlist getSelectedPlaylist() {
